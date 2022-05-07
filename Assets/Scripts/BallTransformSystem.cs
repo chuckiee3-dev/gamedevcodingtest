@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class BallTransformSystem
 {
-    public static void Run(GameObject ball)
+    public static void Vector3DotRun(GameObject ball)
     {
         var time = Data.HighlightTime;
         var activeGame = Data.SequenceData;

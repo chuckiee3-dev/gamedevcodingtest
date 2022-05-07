@@ -6,9 +6,12 @@ public class GameManager : MonoBehaviour
     private GameObject playerPrefab;
     [SerializeField]
     private GameObject ballPrefab;
+    [SerializeField]
+    private GameObject predictionVisualPrefab;
 
     private GameObject ball;
     private GameObject[] players;
+    private GameObject predictionVisual;
 
     void Start()
     {
@@ -20,17 +23,20 @@ public class GameManager : MonoBehaviour
         Data.SequenceMetaData = metaData;
         ball = Instantiate(ballPrefab);
         players = new GameObject[Data.TotalPlayers];
+        predictionVisual = Instantiate(predictionVisualPrefab);
         for (int i = 0; i < players.Length; i++)
         {
             players[i] = Instantiate(playerPrefab);
         }
+        
     }
 
     private void Update()
     {
         Data.HighlightTime += Time.deltaTime * Data.StepsPerSecond;
-        BallTransformSystem.Run(ball);
+        BallTransformSystem.Vector3DotRun(ball);
         PlayerTransformSystem.Run(players);
+        PredictionSystem.Run(ball, players, predictionVisual);
     }
 
 }

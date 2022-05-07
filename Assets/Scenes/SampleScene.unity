@@ -430,6 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7991380823634051135, guid: e0c532f62f70ba34e9642ea71baf169b, type: 3}
   ballPrefab: {fileID: 6315693002374268805, guid: 453fb60f3ac5aa74384ec09bc7d4d632, type: 3}
+  predictionVisualPrefab: {fileID: 7117060321305152040, guid: e25b472bfcd1d4d45a8b9f85fb58be66, type: 3}
 --- !u!4 &1349720366
 Transform:
   m_ObjectHideFlags: 0
