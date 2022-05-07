@@ -3,13 +3,15 @@ using UnityEngine;
 
 public static class PredictionSystem
 {
-    private static float eligibleThreshold = .95f;
-    public static void Vector3DotRun(GameObject ball, GameObject[] players, GameObject predictionVisual)
+    private static float eligibleThreshold = .98f;
+    private static readonly int ColorId = Shader.PropertyToID("_Color");
+
+    public static void Vector3DotRun(GameObject ball, GameObject[] players, GameObject predictionVisual,
+        Vector3 ballMovementDir)
     {
-        var ballForward = ball.transform.forward;
         var ballPosition = ball.transform.position;
         
-        Vector2 ballDir = new Vector2(ballForward.x, ballForward.z);
+        Vector2 ballDir = new Vector2(ballMovementDir.x, ballMovementDir.z);
         Vector2 ballPos2D = new Vector2(ballPosition.x, ballPosition.z);
 
         float minDistSq = float.MaxValue;
@@ -31,20 +33,26 @@ public static class PredictionSystem
 
         if (closestPlayerIndex != -1)
         {
-            for (int i = 0; i < players.Length; i++)
-            {
-                if (i == closestPlayerIndex)
-                {
-                    players[i].GetComponentInChildren<MeshRenderer>().material.SetColor("_Color", Color.red);
-                }
-                else
-                {players[i].GetComponentInChildren<MeshRenderer>().material.SetColor("_Color", Color.white);
-                }
-            }
+            VisualiseTargetedPlayer(players, closestPlayerIndex);
             Vector2 predictedContactPos = (ball.transform.position + players[closestPlayerIndex].transform.position) / 2;
             Vector3 targetPos = new Vector3(predictedContactPos.x, predictionVisual.transform.position.y,
                 predictedContactPos.y);
             predictionVisual.transform.position = targetPos;
+        }
+    }
+
+    //Used for debugging only
+    private static void VisualiseTargetedPlayer(GameObject[] players, int closestPlayerIndex)
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (i == closestPlayerIndex)
+            {
+                players[i].GetComponentInChildren<MeshRenderer>().material.SetColor(ColorId, Color.red);
+            }
+            else
+            {players[i].GetComponentInChildren<MeshRenderer>().material.SetColor(ColorId, Color.white);
+            }
         }
     }
 }

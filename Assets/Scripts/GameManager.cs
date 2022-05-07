@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,7 +13,9 @@ public class GameManager : MonoBehaviour
     private GameObject ball;
     private GameObject[] players;
     private GameObject predictionVisual;
-
+    private Vector3 ballPrevPosition;
+    private bool isFirstFrame;
+    Vector3 ballMovementDir ;
     void Start()
     {
         Data.Init();
@@ -36,7 +39,25 @@ public class GameManager : MonoBehaviour
         Data.HighlightTime += Time.deltaTime * Data.StepsPerSecond;
         BallTransformSystem.Run(ball);
         PlayerTransformSystem.Run(players);
-        PredictionSystem.Vector3DotRun(ball, players, predictionVisual);
+        if (isFirstFrame)
+        {
+            isFirstFrame = false;
+            ballPrevPosition = ball.transform.position;
+            return;
+        }
+        ballMovementDir = ball.transform.position - ballPrevPosition;
+        ballMovementDir.y = 0;
+        if(ballMovementDir.sqrMagnitude >= .001f){
+            PredictionSystem.Vector3DotRun(ball, players, predictionVisual, ballMovementDir.normalized);
+        }
+
+        ballPrevPosition = ball.transform.position;
     }
 
+    private void OnDrawGizmos()
+    {
+        if(!ball) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(ball.transform.position, ball.transform.position + ballMovementDir.normalized * 5);
+    }
 }
