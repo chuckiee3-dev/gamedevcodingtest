@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         Data.HighlightTime += Time.deltaTime * Data.StepsPerSecond;
-        BallTransformSystem.Vector3DotRun(ball);
+        BallTransformSystem.Run(ball);
         PlayerTransformSystem.Run(players);
-        PredictionSystem.Run(ball, players, predictionVisual);
+        PredictionSystem.Vector3DotRun(ball, players, predictionVisual);
     }
 
 }

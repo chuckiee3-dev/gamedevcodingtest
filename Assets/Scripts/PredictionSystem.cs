@@ -4,7 +4,7 @@ using UnityEngine;
 public static class PredictionSystem
 {
     private static float eligibleThreshold = .95f;
-    public static void Run(GameObject ball, GameObject[] players, GameObject predictionVisual)
+    public static void Vector3DotRun(GameObject ball, GameObject[] players, GameObject predictionVisual)
     {
         var ballForward = ball.transform.forward;
         var ballPosition = ball.transform.position;
